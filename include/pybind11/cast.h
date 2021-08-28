@@ -542,8 +542,8 @@ public:
 };
 
 // Base implementation for std::tuple and std::pair
-template <template<typename...> class Tuple, typename... Ts> class tuple_caster {
-    using type = Tuple<Ts...>;
+template <class Tuple, typename... Ts> class tuple_caster {
+    using type = Tuple;
     static constexpr auto size = sizeof...(Ts);
     using indices = make_index_sequence<size>;
 public:
@@ -618,14 +618,14 @@ protected:
         return result.release();
     }
 
-    Tuple<make_caster<Ts>...> subcasters;
+    std::tuple<make_caster<Ts>...> subcasters;
 };
 
 template <typename T1, typename T2> class type_caster<std::pair<T1, T2>>
-    : public tuple_caster<std::pair, T1, T2> {};
+    : public tuple_caster<std::pair<T1, T2>, T1, T2> {};
 
 template <typename... Ts> class type_caster<std::tuple<Ts...>>
-    : public tuple_caster<std::tuple, Ts...> {};
+    : public tuple_caster<std::tuple<Ts...>, Ts...> {};
 
 /// Helper class which abstracts away certain actions. Users can provide specializations for
 /// custom holders, but it's only necessary if the type has a non-standard interface.
