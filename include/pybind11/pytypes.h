@@ -323,6 +323,11 @@ PYBIND11_NAMESPACE_END(detail)
 #  pragma warning(push)
 #  pragma warning(disable: 4275 4251) // warning C4275: An exported class was derived from a class that wasn't exported. Can be ignored when derived from a STL class.
 #endif
+
+#if defined(__NVCC__)
+#  pragma diag_suppress = base_class_has_different_dll_interface
+#  pragma diag_suppress = field_without_dll_interface
+#endif
 /// Fetch and hold an error which was already set in Python.  An instance of this is typically
 /// thrown to propagate python-side errors back through C++ which can either be caught manually or
 /// else falls back to the function dispatcher (which then raises the captured error back to
@@ -378,6 +383,11 @@ public:
 private:
     object m_type, m_value, m_trace;
 };
+#if defined(__NVCC__)
+#  pragma diag_default = base_class_has_different_dll_interface
+#  pragma diag_default = field_without_dll_interface
+#endif
+
 #if defined(_MSC_VER)
 #  pragma warning(pop)
 #endif
