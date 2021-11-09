@@ -325,8 +325,13 @@ PYBIND11_NAMESPACE_END(detail)
 #endif
 
 #if defined(__NVCC__)
+#if defined __NVCC_DIAG_PRAGMA_SUPPORT__
+#  pragma nv_diag_suppress = base_class_has_different_dll_interface
+#  pragma nv_diag_suppress = field_without_dll_interface
+#else
 #  pragma diag_suppress = base_class_has_different_dll_interface
 #  pragma diag_suppress = field_without_dll_interface
+#endif
 #endif
 /// Fetch and hold an error which was already set in Python.  An instance of this is typically
 /// thrown to propagate python-side errors back through C++ which can either be caught manually or
@@ -384,8 +389,13 @@ private:
     object m_type, m_value, m_trace;
 };
 #if defined(__NVCC__)
+#if defined __NVCC_DIAG_PRAGMA_SUPPORT__
+#  pragma nv_diag_default = base_class_has_different_dll_interface
+#  pragma nv_diag_default = field_without_dll_interface
+#else
 #  pragma diag_default = base_class_has_different_dll_interface
 #  pragma diag_default = field_without_dll_interface
+#endif
 #endif
 
 #if defined(_MSC_VER)
