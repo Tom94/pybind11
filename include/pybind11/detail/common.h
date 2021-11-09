@@ -912,7 +912,11 @@ PYBIND11_NAMESPACE_END(detail)
 #endif
 
 #if defined(__NVCC__)
+#if defined __NVCC_DIAG_PRAGMA_SUPPORT__
+#  pragma nv_diag_suppress = base_class_has_different_dll_interface
+#else
 #  pragma diag_suppress = base_class_has_different_dll_interface
+#endif
 #endif
 /// C++ bindings of builtin Python exceptions
 class PYBIND11_EXPORT_EXCEPTION builtin_exception : public std::runtime_error {
@@ -922,7 +926,11 @@ public:
     virtual void set_error() const = 0;
 };
 #if defined(__NVCC__)
+#if defined __NVCC_DIAG_PRAGMA_SUPPORT__
+#  pragma nv_diag_default = base_class_has_different_dll_interface
+#else
 #  pragma diag_default = base_class_has_different_dll_interface
+#endif
 #endif
 
 #if defined(_MSC_VER)
